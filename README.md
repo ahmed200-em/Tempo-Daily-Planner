@@ -36,6 +36,7 @@ and review an honest weekly report of what actually happened.
 - [Project structure](#project-structure)
 - [Tech stack](#tech-stack)
 - [Roadmap ideas](#roadmap-ideas)
+- [Author](#Author)
 - [License](#license)
 
 ---
@@ -446,6 +447,41 @@ Natural next steps, none of which the current architecture fights against:
 - [ ] Pomodoro mode that auto-inserts breaks into a long session
 - [ ] Optional cloud sync behind the existing storage hook
 
+---
+
+## Author
+
+<table>
+  <tr>
+    <td>
+      <img src="https://avatars.githubusercontent.com/YOUR_GITHUB_USERNAME?s=100" width="80" height="80" alt="Author avatar" />
+    </td>
+    <td>
+      <strong>Your Name</strong>
+      <br/>
+      <sub>Built for anyone who wants their day to feel planned, not packed.</sub>
+      <br/><br/>
+      <a href="https://YOUR_PORTFOLIO_URL">
+        <img src="https://img.shields.io/badge/🌐_Portfolio-visit-2f6b58?style=flat-square" alt="Portfolio" />
+      </a>
+      &nbsp;
+      <a href="https://github.com/YOUR_GITHUB_USERNAME">
+        <img src="https://img.shields.io/badge/GitHub-YOUR_GITHUB_USERNAME-181717?style=flat-square&logo=github" alt="GitHub" />
+      </a>
+    </td>
+  </tr>
+</table>
+
+<div align="center">
+<br/>
+
+**Built for anyone who wants their day to feel planned, not packed.**
+
+<br/>
+
+<sub>Designed, built and maintained by <a href="https://YOUR_PORTFOLIO_URL">Your Name</a> · <a href="https://github.com/YOUR_GITHUB_USERNAME">GitHub</a> · <a href="https://YOUR_PORTFOLIO_URL">Portfolio</a></sub>
+
+</div>
 ---
 
 ## License
