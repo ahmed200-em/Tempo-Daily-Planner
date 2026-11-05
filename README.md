@@ -466,7 +466,7 @@ Natural next steps, none of which the current architecture fights against:
       </a>
       &nbsp;
       <a href="https://github.com/ahmed200-em">
-        <img src="https://img.shields.io/badge/GitHub-YOUR_GITHUB_USERNAME-181717?style=flat-square&logo=github" alt="GitHub" />
+        <img src="https://img.shields.io/badge/GitHub-ahmed200-em-181717?style=flat-square&logo=github" alt="GitHub" />
       </a>
     </td>
   </tr>
