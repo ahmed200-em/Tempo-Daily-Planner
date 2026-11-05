@@ -454,19 +454,19 @@ Natural next steps, none of which the current architecture fights against:
 <table>
   <tr>
     <td>
-      <img src="https://avatars.githubusercontent.com/YOUR_GITHUB_USERNAME?s=100" width="80" height="80" alt="Author avatar" />
+      <img src="https://avatars.githubusercontent.com/ahmed200-em?s=100" width="80" height="80" alt="Author avatar" />
     </td>
     <td>
-      <strong>Your Name</strong>
+      <strong>Ahmed Elmakrini</strong>
       <br/>
       <sub>Built for anyone who wants their day to feel planned, not packed.</sub>
       <br/><br/>
-      <a href="https://YOUR_PORTFOLIO_URL">
+      <a href="https://modern-portfolio-93c7xd0ub-ahmed200-ems-projects.vercel.app/">
         <img src="https://img.shields.io/badge/🌐_Portfolio-visit-2f6b58?style=flat-square" alt="Portfolio" />
       </a>
       &nbsp;
-      <a href="https://github.com/YOUR_GITHUB_USERNAME">
-        <img src="https://img.shields.io/badge/GitHub-YOUR_GITHUB_USERNAME-181717?style=flat-square&logo=github" alt="GitHub" />
+      <a href="https://github.com/ahmed200-em">
+        <img src="https://img.shields.io/badge/GitHub-ahmed200-em-181717?style=flat-square&logo=github" alt="GitHub" />
       </a>
     </td>
   </tr>
@@ -479,9 +479,10 @@ Natural next steps, none of which the current architecture fights against:
 
 <br/>
 
-<sub>Designed, built and maintained by <a href="https://YOUR_PORTFOLIO_URL">Your Name</a> · <a href="https://github.com/YOUR_GITHUB_USERNAME">GitHub</a> · <a href="https://YOUR_PORTFOLIO_URL">Portfolio</a></sub>
+<sub>Designed, built and maintained by <a href="https://modern-portfolio-93c7xd0ub-ahmed200-ems-projects.vercel.app/">Ahmed Elmakrini</a> · <a href="https://github.com/ahmed200-em">GitHub</a> · <a href="https://modern-portfolio-93c7xd0ub-ahmed200-ems-projects.vercel.app/">Portfolio</a></sub>
 
 </div>
+
 ---
 
 ## License
