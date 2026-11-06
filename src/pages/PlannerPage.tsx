@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ArrowLeftRight,
@@ -394,6 +394,41 @@ export default function PlannerPage() {
     if (filter === id) setFilter(null);
   }
 
+  async function importStudyPlan(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.currentTarget.files?.[0];
+    event.currentTarget.value = "";
+    if (!file) return;
+
+    try {
+      const data: unknown = JSON.parse(await file.text());
+      if (!Array.isArray(data) || !data.length || !data.every(isStudyPlanTask)) {
+        throw new Error("Invalid study plan");
+      }
+
+      const ids = new Set(tasks.map((task) => task.id));
+      const additions = data.filter((task) => {
+        if (ids.has(task.id)) return false;
+        ids.add(task.id);
+        return true;
+      });
+      if (!additions.length) {
+        toast({ kind: "info", title: "This study plan is already imported" });
+        return;
+      }
+
+      setTasks((current) => {
+        const currentIds = new Set(current.map((task) => task.id));
+        return [...current, ...additions.filter((task) => !currentIds.has(task.id))
+          .map((task) => ({ ...task, createdAt: Date.now() }))];
+      });
+      setFilter(null);
+      setDateKey(additions.find((task) => task.date >= now.key)?.date ?? additions[0].date);
+      toast({ kind: "success", title: `Added ${additions.length} study blocks` });
+    } catch {
+      toast({ kind: "warn", title: "Could not import this plan", description: "Select tempo-study-plan.json and try again." });
+    }
+  }
+
   /* ---------------- render ---------------- */
   return (
     <div className="app-bg min-h-screen bg-paper font-sans text-ink">
@@ -431,6 +466,10 @@ export default function PlannerPage() {
               )}
             </p>
           </div>
+          <label className="btn-ghost cursor-pointer focus-within:outline focus-within:outline-accent">
+            Import study plan
+            <input type="file" className="sr-only" accept=".json,application/json" onChange={importStudyPlan} />
+          </label>
         </section>
 
         <div className="mt-5">
@@ -551,4 +590,20 @@ function ShortcutsCard() {
       </div>
     </aside>
   );
+}
+
+function isStudyPlanTask(value: unknown): value is Omit<Task, "createdAt"> {
+  if (!value || typeof value !== "object") return false;
+  const task = value as Partial<Task>;
+  const { startMin, endMin } = task;
+  if (typeof task.date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(task.date)) return false;
+  const parsedDate = new Date(task.date);
+  return Number.isFinite(parsedDate.getTime()) &&
+    parsedDate.toISOString().slice(0, 10) === task.date &&
+    typeof task.id === "string" && task.id.startsWith("excel-fsth-") &&
+    typeof task.title === "string" && Boolean(task.title.trim()) &&
+    (task.notes === undefined || typeof task.notes === "string") &&
+    task.categoryId === "study" && task.repeat?.type === "once" &&
+    typeof startMin === "number" && Number.isInteger(startMin) && startMin >= 0 &&
+    typeof endMin === "number" && Number.isInteger(endMin) && endMin > startMin && endMin < DAY;
 }
