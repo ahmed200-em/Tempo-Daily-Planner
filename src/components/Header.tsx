@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import {
   BarChart3,
   CalendarClock,
+  BookOpen,
   CalendarDays,
   ChevronLeft,
   ChevronRight,
@@ -15,7 +16,7 @@ import { friendlyDate } from "../lib/time";
 
 interface HeaderProps {
   /** which page is showing — controls the middle nav + actions */
-  page: "planner" | "report";
+  page: "planner" | "report" | "study";
   dateKey: string;
   isToday: boolean;
   theme: "light" | "dark";
@@ -78,13 +79,17 @@ export function Header({
           </nav>
         ) : (
           <p className="ml-2 hidden font-display text-sm font-medium text-soft sm:ml-6 sm:block">
-            Weekly report
+            {page === "study" ? "Study planner" : "Weekly report"}
           </p>
         )}
 
         <div className="ml-auto flex items-center gap-2">
           {isPlanner ? (
             <>
+              <Link className="btn-ghost !px-2 sm:!px-4" to="/study" aria-label="Study planner" title="Study planner">
+                <BookOpen size={16} aria-hidden />
+                <span className="hidden md:inline">Study</span>
+              </Link>
               <Link className="btn-ghost !px-3 sm:!px-4" to="/report" title="Weekly report (R)">
                 <BarChart3 size={16} aria-hidden />
                 <span className="hidden md:inline">Report</span>

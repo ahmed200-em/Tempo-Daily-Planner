@@ -3,6 +3,7 @@ import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import { ToastProvider } from "./components/Toasts";
 import { PlannerProvider } from "./store/PlannerContext";
 import PlannerPage from "./pages/PlannerPage";
+import StudyPage from "./pages/StudyPage";
 import ReportPage from "./pages/ReportPage";
 
 export default function App() {
@@ -14,6 +15,7 @@ export default function App() {
           <PlannerProvider>
             <Routes>
               <Route path="/" element={<PlannerPage />} />
+              <Route path="/study" element={<StudyPage />} />
               <Route path="/report" element={<ReportPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
