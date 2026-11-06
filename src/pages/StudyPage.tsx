@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "../components/Header";
 import { useToast } from "../components/Toasts";
@@ -39,6 +39,41 @@ export default function StudyPage() {
     }
   }
 
+  async function importStudyPlan(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.currentTarget.files?.[0];
+    event.currentTarget.value = "";
+    if (!file) return;
+
+    try {
+      const data: unknown = JSON.parse(await file.text());
+      if (!Array.isArray(data) || !data.length || !data.every(isStudyPlanTask)) {
+        throw new Error("Invalid study plan");
+      }
+
+      const ids = new Set(tasks.map((task) => task.id));
+      const additions = data.filter((task) => {
+        if (ids.has(task.id)) return false;
+        ids.add(task.id);
+        return true;
+      });
+      if (!additions.length) {
+        toast({ kind: "info", title: "This study plan is already imported" });
+        return;
+      }
+
+      setTasks((current) => {
+        const currentIds = new Set(current.map((task) => task.id));
+        return [...current, ...additions.filter((task) => !currentIds.has(task.id))
+          .map((task) => ({ ...task, createdAt: Date.now() }))];
+      });
+      setDateKey(additions.find((task) => task.date >= now.key)?.date ?? additions[0].date);
+      toast({ kind: "success", title: `Added ${additions.length} study blocks` });
+      navigate("/");
+    } catch {
+      toast({ kind: "warn", title: "Could not import this plan", description: "Select tempo-study-plan.json and try again." });
+    }
+  }
+
   function schedule(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!valid || !date || !subject.trim()) {
@@ -71,6 +106,16 @@ export default function StudyPage() {
       <main className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
         <h1 className="font-display text-4xl font-semibold tracking-tight">Study planner</h1>
         <p className="mt-2 text-sm text-soft">Plan focused study blocks and add breaks between them.</p>
+        <section className="card mt-6 flex flex-wrap items-center justify-between gap-3 p-5">
+          <div>
+            <h2 className="font-display text-xl font-semibold">Import a study plan</h2>
+            <p className="mt-1 text-sm text-soft">Add the sessions from your plan file to your daily timeline.</p>
+          </div>
+          <label className="btn-ghost cursor-pointer focus-within:outline focus-within:outline-accent">
+            Import study plan
+            <input type="file" className="sr-only" accept=".json,application/json" onChange={importStudyPlan} />
+          </label>
+        </section>
         <div className="mt-6 grid gap-5 md:grid-cols-2">
           <form className="card space-y-4 p-5" onSubmit={schedule} onChange={() => setError("")}>
             <label className="block text-sm font-semibold">
@@ -107,4 +152,20 @@ export default function StudyPage() {
       </main>
     </div>
   );
+}
+
+function isStudyPlanTask(value: unknown): value is Omit<Task, "createdAt"> {
+  if (!value || typeof value !== "object") return false;
+  const task = value as Partial<Task>;
+  const { startMin, endMin } = task;
+  if (typeof task.date !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(task.date)) return false;
+  const parsedDate = new Date(task.date);
+  return Number.isFinite(parsedDate.getTime()) &&
+    parsedDate.toISOString().slice(0, 10) === task.date &&
+    typeof task.id === "string" && task.id.startsWith("excel-fsth-") &&
+    typeof task.title === "string" && Boolean(task.title.trim()) &&
+    (task.notes === undefined || typeof task.notes === "string") &&
+    task.categoryId === "study" && task.repeat?.type === "once" &&
+    typeof startMin === "number" && Number.isInteger(startMin) && startMin >= 0 &&
+    typeof endMin === "number" && Number.isInteger(endMin) && endMin > startMin && endMin < DAY;
 }
